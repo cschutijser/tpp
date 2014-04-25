@@ -31,7 +31,9 @@ Chat
 The payload for chat messages is very simple. It starts with the nickname of the
 user, followed by a null byte and then the chat message.
 
-| Nickname | ```%00``` | Chat message |
+| Byte # | 0 - n-1  | n - n+1   | n+2 - ...    |
+| ------:| -------- | --------- | ------------ |
+|        | Nickname | ```%00``` | Chat message |
 
 
 File transfers
@@ -70,4 +72,6 @@ payload. The contents of the file can be put hereafter.
 In conclusion, the following should be appended to the basic file transfer
 header:
 
-| ```%00``` | File contents |
+| Byte # | 0         | 1 - ...       |
+| ------:| --------- | ------------- |
+|        | ```%00``` | File contents |
