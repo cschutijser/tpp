@@ -13,9 +13,9 @@ The header for our transport/network layer looks like below.
 | Length | 11 | 37 | 47 | Length of payload in bytes. 0 >= length <= 1024 |
 | Sender | 8 | 48 | 55 | Sender address |
 | Destination | 8 | 56 | 63 | Destination address |
-| Sequence number | 7 | 64 | 70 | Sequence number of the first payload byte of this segment |
-| Acknowledgement number | 7 | 71 | 77 | Next sequence number that receiver is expecting |
-| Segment number | 24 | 78 | 91 | Starts at 0 |
+| Sequence number | 8 | 64 | 71 | Sequence number of the first payload byte of this segment |
+| Acknowledgement number | 8 | 72 | 79 | Next sequence number that receiver is expecting |
+| Segment number | 24 | 80 | 93 | Starts at 0 |
 
 XXX: blokjes van 8, reserved for future use
 
