@@ -5,6 +5,7 @@
 The header for our transport/network layer looks like below.
  
 | Header field name | Number of bits | Purpose/notes |
+| --- | --- | --- |
 | Checksum | 33 | Checksum of header (excluding checksum, of course) + payload |
 | Sender | 8 | Sender address |
 | Destination | 8 | Destination address |
