@@ -7,14 +7,15 @@ The header for our transport/network layer looks like below.
 | Header field name | Number of bits | First bit in packet | Last bit in packet | Purpose/notes |
 | --- | --- | --- | --- | --- |
 | Checksum | 33 | 0 | 32 | Checksum of header (excluding checksum, of course) + payload |
-| Sequence number | 7 | 33 | 39 | Sequence number of the first payload byte of this segment |
-| Sender | 8 | 40 | 47 | Sender address |
-| Destination | 8 | 48 | 55 | Destination address |
-| Acknowledgement number | 7 | 56 | 62 | Next sequence number that receiver is expecting |
-| Segment number | 22 | 63 | 84 | Starts at 0 |
-| ACK | 1 | 85 | 85 | ACK bit |
-| More | 1 | 86 | 86 | More segments to come? 0=no, 1=yes |
-| Length | 11 | 87 | 97 | Length of payload in bytes. 0 >= length <= 1024 |
+| (Reserved for future use) | 2 | 33 | 34 | Reserved for future use |
+| ACK | 1 | 35 | 35 | ACK bit |
+| More | 1 | 36 | 36 | More segments to come? 0=no, 1=yes |
+| Length | 11 | 37 | 47 | Length of payload in bytes. 0 >= length <= 1024 |
+| Sender | 8 | 48 | 55 | Sender address |
+| Destination | 8 | 56 | 63 | Destination address |
+| Sequence number | 7 | 64 | 70 | Sequence number of the first payload byte of this segment |
+| Acknowledgement number | 7 | 71 | 77 | Next sequence number that receiver is expecting |
+| Segment number | 24 | 78 | 91 | Starts at 0 |
 
 XXX: blokjes van 8, reserved for future use
 
