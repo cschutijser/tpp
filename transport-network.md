@@ -4,17 +4,17 @@
 
 The header for our transport/network layer looks like below.
  
-| Header field name | Number of bits | Purpose/notes |
-| --- | --- | --- |
-| Checksum | 33 | Checksum of header (excluding checksum, of course) + payload |
-| Sequence number | 7 | Sequence number of the first payload byte of this segment |
-| Sender | 8 | Sender address |
-| Destination | 8 | Destination address |
-| Acknowledgement number | 32 | Next sequence number that receiver is expecting |
-| Segment number | 22 | Starts at 0 |
-| ACK | 1 | ACK bit |
-| More | 1 | More segments to come? 0=no, 1=yes |
-| Length | 11 | Length of payload in bytes. 0 >= length <= 1024 |
+| Header field name | Number of bits | First bit in packet | Last bit in packet | Purpose/notes |
+| --- | --- | --- | --- | --- |
+| Checksum | 33 | 0 | 32 | Checksum of header (excluding checksum, of course) + payload |
+| Sequence number | 7 | 33 | 39 | Sequence number of the first payload byte of this segment |
+| Sender | 8 | 40 | 47 | Sender address |
+| Destination | 8 | 48 | 55 | Destination address |
+| Acknowledgement number | 7 | 56 | 62 | Next sequence number that receiver is expecting |
+| Segment number | 22 | 63 | 84 | Starts at 0 |
+| ACK | 1 | 85 | 85 | ACK bit |
+| More | 1 | 86 | 86 | More segments to come? 0=no, 1=yes |
+| Length | 11 | 87 | 97 | Length of payload in bytes. 0 >= length <= 1024 |
 
 XXX: blokjes van 8, reserved for future use
 
