@@ -17,12 +17,43 @@ The header for our transport/network layer looks like below.
 | Acknowledgement number | 8 | 72 | 79 | Next sequence number that receiver is expecting |
 | Segment number | 24 | 80 | 103 | Starts at 0 |
 
-XXX: blokjes van 8, reserved for future use
+The payload follows after the header. The minimum size of the payload is 0
+bytes, the maximum size of the payload is 1024 bytes.
 
-The payload follows after the header. The size of the payload is >= 0 && <= 1024
-bytes.
+## Composing a packet
 
-## Notes
+When you want to send some data, you can send one or more packets.
+
+### Checksum
+
+For the checksum, we use CRC-32.
+The checksum is calculated over the header (excluding the checksum area) and the
+payload.
+Since the checksum is at the beginning of the header, you can compose the
+header (excluding the checksum), append the payload and then calculate the
+checksum and prepend it to the packet.
+
+### Sending more than 1024 bytes
+
+If the size of the application layer data exceeds the maximum length of a packet
+(1024 bytes), you need to send multiple packets, each containing a segment
+number.
+The segment number starts at 0, and is incremented with each new packet that
+belongs to this series of packets.
+Setting the More bit to 1 indicates that more packets belonging to this series
+are coming.
+This obviously means that the last packet of this series has the More bit set to
+0.
+
+### ACKing a packet
+
+Each received packet contains a sequence number.
+With an ACK, you can indicate which sequence number you expect next.
+This acknowledgement number is put in the `Acknowledgement number' field of the
+packet.
+When ACKing a packet, the ACK bit must be set to 1.
+
+### Notes
 
  * Packets must be dropped if the checksum is invalid.
  * When a packet has been sent, the sender must wait for an acknowledgement to
