@@ -61,19 +61,3 @@ When ACKing a packet, the ACK bit must be set to 1.
  * When a packet has been sent, the sender must start a timer. When the timer
    expires, the packet can be sent again. The time-out has yet to be determined.
 
-
-
-DRAFT:
-
-Header format:
- * Checksum (header + payload, checksum is assumed to be 0). CRC: 
- * Sender: 8 bits
- * Destination: 8 bits
- * Length: 10 bits
- * Sequence number: 32 bits
- * Acknowledgement number: 32 bits
- * Segment number: 22 bits
- * More segments to come: 0=no, 1=yes
-
-
-22 bits segment number
