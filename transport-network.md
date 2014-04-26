@@ -15,7 +15,7 @@ The header for our transport/network layer looks like below.
 | Destination | 8 | 56 | 63 | Destination address |
 | Sequence number | 8 | 64 | 71 | Packet sequence number. Starts at 0, increment by 1 for every new packet |
 | Acknowledgement number | 8 | 72 | 79 | Next sequence number that receiver is expecting |
-| Segment number | 24 | 80 | 93 | Starts at 0 |
+| Segment number | 24 | 80 | 103 | Starts at 0 |
 
 XXX: blokjes van 8, reserved for future use
 
