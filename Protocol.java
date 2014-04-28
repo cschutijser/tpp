@@ -5,10 +5,16 @@ package tpp;
 public class Protocol
 {
 	/**
+	 * CHANGE.
+	 */
+	
+	/**
 	 * Port number that is used for TCP-tunnels.
 	 * <br><i>Application layer</i>
 	 */
-	public final static char PORT = 1337;
+	public final static int PORT = 1337;
+	
+	public final static int MAX_FILE_SIZE = -1;
 	
 	/**
 	 * Chat messages should start with this prefix.
