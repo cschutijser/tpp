@@ -17,12 +17,15 @@ limited by the transport / network layer, which is 2^32 bytes minus one byte.
 The following commands are currently available, and should be handled by the
 implementing application:
 
-| Command ```char``` | Application   | Action |
-| ------------------ | ------------- | ------ |
-| C (```67```)       | Chat          | Send chat message |
-| F (```70```)       | File transfer | Send request to transfer file |
-| A (```65```)       | File transfer | Accept file transfer |
-| S (```83```)       | File transfer | Transfer file |
+| Command ```char```  | Application   | Action |
+| ------------------- | ------------- | ------ |
+| C (```%67```)       | Chat          | Send chat message |
+| F (```%70```)       | File transfer | Send request to transfer file |
+| A (```%65```)       | File transfer | Accept file transfer |
+| S (```%83```)       | File transfer | Transfer file |
+
+All text, char and file data should be UTF-8 encoded, unless otherwise
+specified.
 
 
 Chat
