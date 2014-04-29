@@ -6,8 +6,8 @@ The header for our transport/network layer is defined below.
  
 | Header field name | Number of bits | First bit in packet | Last bit in packet | Purpose/notes |
 | --- | --- | --- | --- | --- |
-| Checksum | 33 | 0 | 32 | Checksum over header + payload |
-| (Reserved for future use) | 2 | 33 | 34 | Reserved for future use |
+| Checksum | 32 | 0 | 31 | Checksum over header + payload |
+| TTL | 3 | 32 | 34 | Time to live. Starts at 7 |
 | ACK | 1 | 35 | 35 | ACK bit |
 | More | 1 | 36 | 36 | More segments to come? 0=no, 1=yes |
 | Length | 11 | 37 | 47 | Length of payload in bytes. 0 >= length <= 1024 |
@@ -33,10 +33,17 @@ For the checksum, we use CRC-32.
 The checksum is calculated over the header and the payload.
 When calculating the checksum, the checksum area is assumed to be 0.
 
-Because the checksum has a length of 33 bits, the most significant bit of a byte
-you calculate the checksum over is changed, but the checksum is calculated with
-the old value of this bit in mind.
-This bit (bit 32 of the header) should be set to 0.
+### TTL
+
+We use a TTL to prevent packets from circulating indefinitely through the
+network.
+When a packet is sent, the TTL must be set to 7.
+Each node that forwards the packet must decrement the TTL by 1.
+Of course, the checksum needs to be recalculated in that case.
+Before forwarding a packet, the node must verify that the TTL in the received
+packet is not 0.
+If the TTL in a received packet is 0 and the packet is not destined to that
+node, the packet must be dropped.
 
 ### Sending more than 1024 bytes
 
