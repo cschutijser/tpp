@@ -34,6 +34,11 @@ Since the checksum is at the beginning of the header, you can compose the
 header (excluding the checksum), append the payload and then calculate the
 checksum and prepend it to the packet.
 
+Because the checksum has a length of 33 bits, the most significant bit of a byte
+you calculate the checksum over is changed, but the checksum is calculated with
+the old value of this bit in mind.
+This bit (bit 32 of the header) should be set to 0.
+
 ### Sending more than 1024 bytes
 
 If the size of the application layer data exceeds the maximum length of a packet
