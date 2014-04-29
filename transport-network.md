@@ -1,5 +1,9 @@
 # Transport/network layer
 
+## Requirements to lower layer (link layer)
+
+The link layer must provide packets to the transport/network layer.
+
 ## Header format
 
 The header for our transport/network layer is defined below.
