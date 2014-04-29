@@ -22,15 +22,14 @@ public class Header
 			//Choose random values for the header fields.
 			boolean ackFlag = r.nextBoolean();
 			byte acknowledgementNumber = (byte)(r.nextInt(256));
-			long checksum = r.nextLong() & 0x1FFFFFFFFL; //--> Only 33 of 64 bits allowed.
+			long checksum = r.nextInt();
 			byte destination = (byte)(r.nextInt(256));
 			short length = (short)(r.nextInt(1025));
 			boolean moreFlag = r.nextBoolean();
-			boolean reservedFlag1 = r.nextBoolean();
-			boolean reservedFlag2 = r.nextBoolean();
 			int segmentNumber = r.nextInt() & 0xFFFFFF; //--> Only 24 of 32 bits allowed.
 			byte sender = (byte)(r.nextInt(256));
 			byte sequenceNumber = (byte)(r.nextInt(256));
+			int timeToLive = r.nextInt(8);
 			
 			//Set the header fields.
 			h.setAckFlag(ackFlag);
@@ -39,11 +38,10 @@ public class Header
 			h.setDestination(destination);
 			h.setLength(length);
 			h.setMoreFlag(moreFlag);
-			h.setReservedFlag1(reservedFlag1);
-			h.setReservedFlag2(reservedFlag2);
 			h.setSegmentNumber(segmentNumber);
 			h.setSender(sender);
 			h.setSequenceNumber(sequenceNumber);
+			h.setTimeToLive(timeToLive);
 			
 			//Check if the extracted value matches the original value.
 			if (h.getAckFlag() != ackFlag) System.out.println("AckFlag failed (" + ackFlag + " vs " + h.getAckFlag() + ")!");
@@ -52,11 +50,10 @@ public class Header
 			if (h.getDestination() != destination) System.out.println("Destination failed (" + destination + " vs " + h.getDestination() + ")!");
 			if (h.getLength() != length) System.out.println("Length failed (" + length + " vs " + h.getLength() + ")!");
 			if (h.getMoreFlag() != moreFlag) System.out.println("MoreFlag failed (" + moreFlag + " vs " + h.getMoreFlag() + ")!");
-			if (h.getReservedFlag1() != reservedFlag1) System.out.println("ReservedFlag1 failed (" + reservedFlag1 + " vs " + h.getReservedFlag1() + ")!");
-			if (h.getReservedFlag2() != reservedFlag2) System.out.println("ReservedFlag2 failed (" + reservedFlag2 + " vs " + h.getReservedFlag2() + ")!");
 			if (h.getSegmentNumber() != segmentNumber) System.out.println("SegmentNumber failed (" + segmentNumber + " vs " + h.getSegmentNumber() + ")!");
 			if (h.getSender() != sender) System.out.println("Sender failed (" + sender + " vs " + h.getSender() + ")!");
 			if (h.getSequenceNumber() != sequenceNumber) System.out.println("SequenceNumber failed (" + sequenceNumber + " vs " + h.getSequenceNumber() + ")!");
+			if (h.getTimeToLive() != timeToLive) System.out.println("TimeToLive failed (" + timeToLive + " vs " + h.getTimeToLive() + ")!");
 		}
 		
 		System.out.println("Done!");
@@ -74,55 +71,23 @@ public class Header
 	}
 	
 	/**
-	 * Casts the specified value to a long, and then sets the first 56 bits to zero.
-	 * This effectively casts a byte to an unsigned long.
-	 * @param value Value.
-	 * @return Casted value.
+	 * @return CRC32-checksum (a 32-bit sequence).
+	 * This value is contained within <tt>data[0]</tt> to <tt>data[3]</tt>.
 	 */
-	private long ulong(byte value)
+	public int getChecksum()
 	{
-		return ((long)value) & 0xFF;
+		return (uint(data[0]) << 24) | (uint(data[1]) << 16) | (uint(data[2]) << 8) | uint(data[3]);
 	}
 	
 	/**
-	 * @return CRC32-checksum (a 33-bit sequence).
-	 * This value is contained within <ul>
-	 * <li> all bits of <tt>data[0]</tt> to <tt>data[3]</tt> and
-	 * <li> the 1st bit of <tt>data[4]</tt>.
-	 * </ul>
-	 */
-	public long getChecksum()
-	{
-		return (ulong(data[0]) << 25) | (ulong(data[1]) << 17) | (ulong(data[2]) << 9) | (ulong(data[3]) << 1) | ((ulong(data[4]) & 0x80) >> 7);
-	}
-	
-	/**
-	 * @param checksum New CRC32-checksum (a 33-bit sequence).
+	 * @param checksum New CRC32-checksum (a 32-bit sequence).
 	 */
 	public void setChecksum(long checksum)
 	{
-		data[0] = (byte)(checksum >> 25);
-		data[1] = (byte)(checksum >> 17);
-		data[2] = (byte)(checksum >> 9);
-		data[3] = (byte)(checksum >> 1);
-		data[4] = (byte)((data[4] & 0x7F) | ((checksum & 0x01) << 7));
-	}
-	
-	/**
-	 * @return Value of the 1st flag that is reserved for future use.
-	 * This value is contained within the 2nd bit of <tt>data[4]</tt>.
-	 */
-	public boolean getReservedFlag1()
-	{
-		return (data[4] & 0x40) == 0x40;
-	}
-	
-	/**
-	 * @param reservedFlag1 New value for the 1st flag that is reserved for future use.
-	 */
-	public void setReservedFlag1(boolean reservedFlag1)
-	{
-		data[4] = (byte)((data[4] & 0xBF) | (reservedFlag1 ? 0x40 : 0x00));
+		data[0] = (byte)(checksum >> 24);
+		data[1] = (byte)(checksum >> 16);
+		data[2] = (byte)(checksum >> 8);
+		data[3] = (byte)checksum;
 	}
 	
 	/**
@@ -291,6 +256,23 @@ public class Header
 	public byte[] data()
 	{
 		return data;
+	}
+	
+	/**
+	 * @return Time-to-live value (0..7).
+	 * This value is contained within the first 3 bits of <tt>data[4]</tt>.
+	 */
+	public int getTimeToLive()
+	{
+		return (data[4] >> 5) & 0x07;
+	}
+	
+	/**
+	 * @param timeToLive New time-to-live value (0..7).
+	 */
+	public void setTimeToLive(int timeToLive)
+	{
+		data[4] = (byte)((data[4] & 0x1F) | (timeToLive << 5));
 	}
 }
 
