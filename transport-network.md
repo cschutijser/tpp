@@ -2,7 +2,7 @@
 
 ## Header format
 
-The header for our transport/network layer looks like below.
+The header for our transport/network layer is defined below.
  
 | Header field name | Number of bits | First bit in packet | Last bit in packet | Purpose/notes |
 | --- | --- | --- | --- | --- |
@@ -17,8 +17,9 @@ The header for our transport/network layer looks like below.
 | Acknowledgement number | 8 | 72 | 79 | Next sequence number that receiver is expecting |
 | Segment number | 24 | 80 | 103 | Starts at 0 |
 
-The payload follows after the header. The minimum size of the payload is 0
-bytes, the maximum size of the payload is 1024 bytes.
+The payload follows after the header.
+The minimum size of the payload is 0 bytes, the maximum size of the payload is
+1024 bytes (this is defined by the Length field).
 
 ## Composing a packet
 
