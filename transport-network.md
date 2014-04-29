@@ -58,6 +58,8 @@ This acknowledgement number is put in the `Acknowledgement number' field of the
 packet.
 When ACKing a packet, the ACK bit must be set to 1.
 
+Packets containing an ACK (so the ACK bit set to 1) must not contain a payload.
+
 ### Notes
 
  * Packets must be dropped if the checksum is invalid.
