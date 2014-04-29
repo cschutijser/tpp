@@ -6,7 +6,7 @@ The header for our transport/network layer is defined below.
  
 | Header field name | Number of bits | First bit in packet | Last bit in packet | Purpose/notes |
 | --- | --- | --- | --- | --- |
-| Checksum | 33 | 0 | 32 | Checksum of header (excluding checksum, of course) + payload |
+| Checksum | 33 | 0 | 32 | Checksum over header + payload |
 | (Reserved for future use) | 2 | 33 | 34 | Reserved for future use |
 | ACK | 1 | 35 | 35 | ACK bit |
 | More | 1 | 36 | 36 | More segments to come? 0=no, 1=yes |
@@ -28,11 +28,8 @@ When you want to send some data, you can send one or more packets.
 ### Checksum
 
 For the checksum, we use CRC-32.
-The checksum is calculated over the header (excluding the checksum area) and the
-payload.
-Since the checksum is at the beginning of the header, you can compose the
-header (excluding the checksum), append the payload and then calculate the
-checksum and prepend it to the packet.
+The checksum is calculated over the header and the payload.
+When calculating the checksum, the checksum area is assumed to be 0.
 
 Because the checksum has a length of 33 bits, the most significant bit of a byte
 you calculate the checksum over is changed, but the checksum is calculated with
