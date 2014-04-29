@@ -21,6 +21,8 @@ The payload follows after the header.
 The minimum size of the payload is 0 bytes, the maximum size of the payload is
 1024 bytes (this is defined by the Length field).
 
+All numbers are unsigned, unless specified otherwise.
+
 ## Composing a packet
 
 When you want to send some data, you can send one or more packets.
