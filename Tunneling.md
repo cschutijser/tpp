@@ -4,7 +4,9 @@ This is the tunneling of packets through a TCP connection. Every computer should
 
 The maximum length of packets is the same as the maximum length of the Transport layer.
 
-To summarize:
+The tunnel should be left open while the network is up and running.
 
+To summarize:
 - TCP
 - Port = 1337
+- Leave the connection open
