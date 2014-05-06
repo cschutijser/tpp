@@ -6,7 +6,7 @@ The maximum length of packets is the same as the maximum length of the Transport
 
 The tunnel should be left open while the network is up and running.
 
-The tunnel may be closed at any time and should be recreated as described above.
+The tunnel may (but should not) be closed at any time and should be recreated as described above.
 
 To summarize:
 - TCP
