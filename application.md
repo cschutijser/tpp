@@ -78,3 +78,8 @@ header:
 | Byte # | 0         | 1 - ...       |
 | ------:| --------- | ------------- |
 |        | ```%00``` | File contents |
+
+Notes
+-----
+
+Please remind yourself of the fact that network layer packets may not arrive in order, and multiple sequences (e.g. multiple file transfers) might take place in the same timeframe, due to the inner workings of the network layer. The application layer will ideally handle this property (e.g. keep a list of all file transfer requests/acceptances), but due to the fact that requests may expire at any time another implementation won't break things. Sending files to this particular client might be difficult however.
