@@ -12,3 +12,4 @@ To summarize:
 - TCP
 - Port = 1337
 - Leave the connection open
+- Highest adress opens the connection
