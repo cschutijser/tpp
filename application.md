@@ -11,13 +11,13 @@ The applications in the application layer use the same basic protocol:
 |       | Command | Payload |
 
 The command part of the protocol is eight bits (one byte) long. The desired
-representation for this, is a ```char```. The payload has a length that is only
+representation for this, is a ```byte```. The payload has a length that is only
 limited by the transport / network layer, which is 2^32 bytes minus one byte.
 
 The following commands are currently available, and should be handled by the
 implementing application:
 
-| Command ```char```  | Application   | Action |
+| Command ```byte```  | Application   | Action |
 | ------------------- | ------------- | ------ |
 | C (```%67```)       | Chat          | Send chat message |
 | F (```%70```)       | File transfer | Send request to transfer file |
