@@ -23,10 +23,16 @@ implementing application:
 | F (```%70```)       | File transfer | Send request to transfer file |
 | A (```%65```)       | File transfer | Accept file transfer |
 | S (```%83```)       | File transfer | Transfer file |
+| W (```%87```)       | WHOIS*        | WHOIS request |
+| I (```%73```)       | WHOIS*        | WHOIS response |
 
 All text, char and file data should be UTF-8 encoded, unless otherwise
 specified.
 
+Applications marked with * are optional. Hosts MAY choose to ignore them, 
+at their option. Hosts SHOULD NOT respond to commands they do not recognize.
+Of course, hosts who use optional applications MUST be able to handle hosts
+who don't.
 
 Chat
 ----
@@ -78,6 +84,34 @@ header:
 | Byte # | 0         | 1 - ...       |
 | ------:| --------- | ------------- |
 |        | ```%00``` | File contents |
+
+WHOIS
+-----
+
+The WHOIS application allows hosts on the network to identify each other in a
+human-readable way. In a way, it does the reverse of what the Domain Name
+System does on the Internet. It is similar in function to (and named after) 
+the WHOIS protocol.
+
+A host that wishes to identify another host MAY send it a WHOIS request
+packet command, which is a single command byte (defined to be ASCII 'W').
+The receiving host MAY then choose to return a packet starting with the
+WHOIS response byte ('I') followed by an identification string.
+
+    Host A -> Host B: W
+    Host B -> Host A: Ifreddy (Example TPP Implementation v0.1)
+
+The format of identification strings ('idents') is implementation-defined
+and not otherwise restricted. For example, hosts MAY choose to use their
+chat nickname as an ident, or an identifier related to the name of the
+group or the name of the implementation. Of course, WHOIS support is most
+useful when different hosts (even within an implementation group)
+return different identification strings, and this identification string is
+constant at least while the host is connected to the network, but neither
+of those are required.
+
+Support for the WHOIS application is optional. Hosts MAY choose to ignore
+WHOIS requests.
 
 Notes
 -----
