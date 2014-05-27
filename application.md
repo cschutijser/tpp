@@ -56,7 +56,7 @@ The payload for file transfers always starts with the following data:
 
 __Important note:__ The file size integer is signed instead of unsigned. This is
 done to accomodate for extra application layers and to make the application
-layer package into a transport / network layer package.
+layer packet into a transport / network layer packet.
 
 ### Requesting a file transfer
 
