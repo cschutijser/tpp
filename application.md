@@ -40,7 +40,7 @@ Chat
 The payload for chat messages is very simple. It starts with the nickname of the
 user, followed by a null byte and then the chat message.
 
-| Byte # | 0 - n-1  | n - n+1   | n+2 - ...    |
+| Byte # | 0 - n-1  | n         | n+1 - ...    |
 | ------:| -------- | --------- | ------------ |
 |        | Nickname | ```%00``` | Chat message |
 
