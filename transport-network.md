@@ -71,13 +71,14 @@ When ACKing a packet, the ACK bit must be set to 1.
 
 Packets containing an ACK (so the ACK bit set to 1) must not contain a payload.
 
-### Notes
+### Miscellaneous
 
  * Packets must be dropped if the checksum is invalid.
  * When a packet has been sent, the sender must wait for an acknowledgement to
    arrive before sending another packet.
  * When a packet has been sent, the sender must start a timer. When the timer
    expires, the packet can be sent again. The time-out has yet to be determined.
+ * When a packet has been retransmitted 3 times, the packet must be dropped.
  * When a field is unused, the field must be set to 0. So for example, when the
    ACK bit is 0, the Acknowledgement number field must be 0.
 
