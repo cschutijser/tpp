@@ -17,7 +17,7 @@ The header for our transport/network layer is defined below.
 | Length | 11 | 37 | 47 | Length of payload in bytes. 0 >= length <= 1024 |
 | Sender | 8 | 48 | 55 | Sender address |
 | Destination | 8 | 56 | 63 | Destination address |
-| Sequence number | 8 | 64 | 71 | Packet sequence number. Starts at 0, increment by 1 for every new packet |
+| Sequence number | 8 | 64 | 71 | Packet sequence number. Starts at 0, increment by 1 for every new packet that is not an ACK |
 | Acknowledgement number | 8 | 72 | 79 | Next sequence number that receiver is expecting |
 | Segment number | 24 | 80 | 103 | Starts at 0 |
 
@@ -70,6 +70,8 @@ packet.
 When ACKing a packet, the ACK bit must be set to 1.
 
 Packets containing an ACK (so the ACK bit set to 1) must not contain a payload.
+Therefore, an ACK does not need to have a valid sequence number, which means
+the sequence number can be ignored.
 
 ### Miscellaneous
 
