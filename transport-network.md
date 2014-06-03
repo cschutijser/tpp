@@ -63,10 +63,13 @@ This obviously means that the last packet of this series has the More bit set to
 
 ### ACKing a packet
 
-Each received packet contains a sequence number.
-With an ACK, you can indicate which sequence number you expect next.
-This acknowledgement number is put in the `Acknowledgement number' field of the
-packet.
+Each received packet contains a sequence number and optionally a segment
+number.
+With an ACK, you can indicate which sequence number (and optionally which
+segment number) you received.
+The sequence number that you want to ACK is put in the `Acknowledgement number'
+field of the packet.
+The segment number is put in the `Segment number' field of the packet.
 When ACKing a packet, the ACK bit must be set to 1.
 
 Packets containing an ACK (so the ACK bit set to 1) must not contain a payload.
