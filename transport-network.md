@@ -86,4 +86,5 @@ the sequence number can be ignored.
  * When a packet has been retransmitted 3 times, the packet must be dropped.
  * When a field is unused, the field must be set to 0. So for example, when the
    ACK bit is 0, the Acknowledgement number field must be 0.
+ * Note that sequence numbers do not necessarily need to be consecutive.
 
