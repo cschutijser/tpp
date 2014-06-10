@@ -54,6 +54,9 @@ The payload for file transfers always starts with the following data:
 | -----:| ---------------------------- | --------- |
 |       | File size (in bytes, signed) | File name |
 
+The extension of the file should be included in the file name, but no path
+and/or folder names should be included.
+
 __Important note:__ The file size integer is signed instead of unsigned. This is
 done to accomodate for extra application layers and to make the application
 layer packet into a transport / network layer packet.
